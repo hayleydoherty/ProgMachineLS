@@ -1,8 +1,8 @@
 # flask for web app.
-from flask import Flask, url_for, request, redirect, abort, jsonify, render_template
+from flask import Flask, request, redirect, abort, jsonify, render_template
 # numpy for numerical work.
 import numpy as np
-
+from power2 import prediction
 
 # Create a new web app.
 app = Flask(__name__, static_url_path='', static_folder='staticpages')
@@ -13,24 +13,14 @@ def home():
   return redirect ('power_prediction.html')
   
 # Add route.
-@app.route('/', methods= ['POST', 'GET'])
+@app.route('/', methods= ['GET'])
 def get_input():
     
-    value_1 = request.form['input1']
+    value_1 = request.json['input1']
     print(value_1)
-    return value_1
+    return jsonify(prediction(value_1))
 
 
-'''# Add uniform route.
-@app.route('/api/uniform')
-def uniform():
-  return {"value": np.random.uniform()}
-
-# Add normal route.
-@app.route('/api/normal')
-def normal():
-  return {"value": np.random.normal()}'''
-  
   
 if __name__ == "__main__":
     app.run(debug=True)
